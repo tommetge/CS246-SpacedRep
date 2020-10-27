@@ -1,0 +1,62 @@
+Summary:
+
+The user will interact with the application in two key ways:
+
+1. Collecting and inserting information that the user wishes to recall. The user will be prompted to provide a summary, which is used in the reminder, and the full information to recall. This information can be:
+  - Text-based information
+  - Scheduling (calendaring)
+  - Photos
+  - PDFs
+2. Viewing reminders that the application presents to the user a specific times during the day or week. Reminders include:
+  - Text-based summary of the information to recall
+  - An option to show the full text (or other original material)
+
+Required Features:
+
+The minimum viable product will:
+
+1. Collect information from the user:
+  - Collect text-based information
+  - Collect a text-based summary of the information (for use in the reminder)
+2. Render reminders on a algorithmically-generated schedule:
+  - Algorithm for time-spacing reminders
+  - Display the user-provided summary for each item
+  - Provide an interactive way for the user to view the full text or original information
+
+Stretch Goals:
+
+In addition to the MVP described above, we would like to:
+
+1. Collection information from the user (in additional formats):
+  - Collect scheduling or calendaring information
+  - Collect photos
+  - Collect PDFs
+2. Render reminders:
+  - Provide an interactive way for the user to view the additional formats via the reminder
+  - Set a configurable timer during which the reminder remains on screen (so the user can't dismiss and ignore it)
+3. Syncing data across devices:
+  - Use a data API to store and sync collected information and reminder schedules across multiple devices.
+
+User Stories:
+
+Virginia (our sponsor) is struggling to recall information necessary to succeed in several classes in school. She is specifically concerned with Math. She opens the Spaced Repetition app and:
+
+1. Presses the "+" button to add a new tidbit for recall
+2. Fills in the text summary with: "Area of a circle"
+3. Fills in the text to recall with: "Area = Pi * (Radius * Radius)"
+4. She taps save and the the new tidbit is added to her list
+5. She closes the app and continues with her day
+6. In the evening, the app presents a reminder with "Area of a circle" included
+7. Virginia attempts to recall the equation and taps the button in the reminder to check
+8. The app presents the text to recall ("Area = Pi * (Radius * Radius)").
+9. Virginia again closes the app
+10. The following morning, the app presents a reminder with "Area of a circle" included
+11. This sequence is repeated two days later, then 4 days, and again one week later
+
+As a stretch goal, we would like the app to accept additional formats of information. The user story for this case is as follows:
+
+1. Virginia presses the "+" button to add a new tidbit for recall
+2. She fills in the text summary with: "U.S. population in the 20th century"
+3. She taps "Add photo" and adds a JPG with a chart showing the population of the U.S. throughout the 20th century
+4. She taps save and the new tidbit is added to her list
+5. The app offers reminders as described in the first story (the base case)
