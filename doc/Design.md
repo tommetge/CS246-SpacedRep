@@ -112,3 +112,86 @@ Mock-ups for each view is attached under the title in parentheses.
 2. (Screen 2) Add/edit form with save button
 3. (Screen 3) Edit/remove pop-up (cancel by tapping outside the view)
 4. (Screen 4) Reminder notification
+5. (Screen 5) Login
+6. (Screen 6) Create account
+
+## Data Model
+
+- Reminder
+  - User
+  - Summary
+  - Content
+    - Text
+    - Image
+    - Document
+  - Creation time
+  - Time to live (TTL)
+  - Last notification date
+  - Current period
+
+- User
+  - Username
+  - First name
+  - Last name
+  - Auth token
+
+- Repetition Schedule
+  - Every day for 7 days
+  - Every week for 4 weeks
+  - Every month perpetually (until TTL)
+
+## Classes
+ 
+### Models
+
+- Reminder (outline in data model)
+- User (outline in data model)
+- Repetition Schedule
+
+### Views
+
+- Login <Activity>
+  - Username
+  - Password
+  - (Button) 
+
+- Create Account <Activity>
+  - Username
+  - First name
+  - Last name
+  - Password
+  - (Button) Save
+  - (Button) Cancel
+
+- Main <Activity>
+  - (Button) Sign out
+  - List of reminders
+  - (Button) Add
+
+- Reminder <Activity>
+  - Summary
+  - Content
+  - Time to live
+  - (Button) Save
+
+- Pop-up <Fragment>
+  - Summary
+  - (Button) Edit
+  - (Button) Remove
+
+- Notification <Fragment>
+  - Summary
+  - (Button) Dismiss
+  - (Button) Check
+
+### Controllers
+
+- User
+  - Sign in
+  - Sign out
+  - Create account
+
+- Reminder
+  - List of reminders
+  - Pushing notifications
+  - Add / edit reminders
