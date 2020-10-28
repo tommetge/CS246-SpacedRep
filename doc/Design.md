@@ -195,3 +195,19 @@ Mock-ups for each view is attached under the title in parentheses.
   - List of reminders
   - Pushing notifications
   - Add / edit reminders
+
+  ## Milestones
+
+  1. (Lesson 09)
+    - Create all views with all visual elements present
+    - Use mock data (not live data)
+    - Main view and associated controls are fully functional (with mock data)
+    - Initial feedback from stakeholder
+  2. (Lesson 11)
+    - Integrate live data
+    - Add unit test coverage for data model
+    - All views and controls are fully functional
+    - Follow-up feedback from stakeholder
+  3. (Lesson 13)
+    - Test on different devices and device classes
+    - Final testing and feedback from stakeholder
