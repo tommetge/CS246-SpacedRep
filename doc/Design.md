@@ -106,7 +106,9 @@ As a stretch goal, we would like the app to accept additional formats of informa
 
 ### Views
 
-1. List of reminders with a plus button to add a new reminder
-2. Add/edit form with save button
-3. Edit/remove pop-up (cancel by tapping outside the view)
-4. Reminder notification
+Mock-ups for each view is attached under the title in parentheses.
+
+1. (Screen 1) List of reminders with a plus button to add a new reminder
+2. (Screen 2) Add/edit form with save button
+3. (Screen 3) Edit/remove pop-up (cancel by tapping outside the view)
+4. (Screen 4) Reminder notification
