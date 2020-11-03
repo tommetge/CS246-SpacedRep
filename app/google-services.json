@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "906947065377",
+    "firebase_url": "https://cs246-spacedrep.firebaseio.com",
+    "project_id": "cs246-spacedrep",
+    "storage_bucket": "cs246-spacedrep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906947065377:android:5f87c03f8acfd77a03d560",
+        "android_client_info": {
+          "package_name": "com.cs246.team1.spacedrepetition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906947065377-dlfa88q4ntkj330srfn3jb0q5ano4mla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFoa5Aedg3DKqXx2TwixJcVtFpkQXtPsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906947065377-dlfa88q4ntkj330srfn3jb0q5ano4mla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
