@@ -10,4 +10,8 @@ public class ReminderController {
     public List<Reminder> listReminders() {
         return new ArrayList();
     }
+
+    public void removeReminder(Reminder reminder) {
+
+    }
 }
