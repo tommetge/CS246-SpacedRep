@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Spaced Repetition</string>
+    <string name="remindersTitle">Reminders</string>
+    <string name="reminderTitle">Reminder</string>
+    <string name="summary">Summary:</string>
+    <string name="content">Content:</string>
+    <string name="logout">Logout</string>
 </resources>

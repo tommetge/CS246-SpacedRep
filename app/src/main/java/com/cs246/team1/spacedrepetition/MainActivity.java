@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
         } else {
-            TextView text = (TextView) findViewById(R.id.hello_world);
+            TextView text = (TextView) findViewById(R.id.reminderLabel);
             text.setText("Hello, " + user.getDisplayName());
         }
     }
-
+//
     public void signOut() {
         AuthUI.getInstance()
                 .signOut(this)
