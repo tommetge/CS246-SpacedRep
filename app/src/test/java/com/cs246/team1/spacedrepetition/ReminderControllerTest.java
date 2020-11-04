@@ -2,6 +2,8 @@ package com.cs246.team1.spacedrepetition;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,5 +16,7 @@ public class ReminderControllerTest {
     public void addReminder_isCorrect() {
         ReminderController testReminder = new ReminderController();
         testReminder.addReminder("test summary", "test content", 1);
+        List<Reminder> reminderList = testReminder.listReminders();
+        assertEquals(1, reminderList.size());
     }
 }
