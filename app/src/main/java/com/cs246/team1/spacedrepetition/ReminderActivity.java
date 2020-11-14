@@ -10,8 +10,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.util.Log;
 
 public class ReminderActivity extends AppCompatActivity {
+    private static final String LOGTAG = "ReminderActivity";
+
+    public static final String ReminderKey = "ReminderActivity.reminder";
+
+    private Reminder _reminder;
 
     Button notifyBtn;
 
@@ -45,6 +52,22 @@ public class ReminderActivity extends AppCompatActivity {
                 managerCompat.notify(1, builder.build());
             }
         });
+
+        String reminderJSON = getIntent().getStringExtra(ReminderKey);
+        setReminder(Reminder.fromJSON(reminderJSON));
+    }
+
+    public void setReminder(Reminder reminder) {
+        _reminder = reminder;
+
+        Log.d(LOGTAG, "Showing reminder " + String.valueOf(_reminder.daysToLive()));
+        ((EditText)findViewById(R.id.summaryInput)).setText(_reminder.summary());
+        ((EditText)findViewById(R.id.contentInput)).setText(_reminder.content());
+        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(_reminder.daysToLive()));
+    }
+
+    public void onDone(View view) {
+        finish();
     }
 
 }
