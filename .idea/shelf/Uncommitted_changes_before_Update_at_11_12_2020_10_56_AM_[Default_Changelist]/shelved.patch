@@ -1,0 +1,179 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Spaced Repetition</string>\r\n    <string name=\"remindersTitle\">Reminders</string>\r\n    <string name=\"reminderTitle\">Reminder</string>\r\n    <string name=\"summary\">Summary:</string>\r\n    <string name=\"content\">Content:</string>\r\n    <string name=\"logout\">Logout</string>\r\n    <string name=\"edit\">Edit</string>\r\n    <string name=\"delete\">Delete</string>\r\n    <string name=\"filler\">Placeholder filler text</string>\r\n\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 0e324a10b4c4d3d173cce1dd92bba18b0040640c)
++++ app/src/main/res/values/strings.xml	(date 1605203793930)
+@@ -8,6 +8,8 @@
+     <string name="edit">Edit</string>
+     <string name="delete">Delete</string>
+     <string name="filler">Placeholder filler text</string>
++    <string name="days">Days to Remind me:</string>
++    <string name="editReminder">Edit Reminder</string>
+ 
+ 
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_reminder.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".ReminderActivity\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/reminderLabel2\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"40dp\"\r\n        android:text=\"@string/reminderTitle\"\r\n        android:textAppearance=\"@style/TextAppearance.AppCompat.Large\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/summaryLabel\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:layout_marginTop=\"32dp\"\r\n        android:text=\"@string/summary\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/reminderLabel2\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/contentLabel\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:text=\"@string/content\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/summary\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/summary\"\r\n        android:layout_width=\"368dp\"\r\n        android:layout_height=\"104dp\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:layout_marginEnd=\"16dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/summaryLabel\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/content\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"352dp\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:layout_marginEnd=\"16dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/contentLabel\" />\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_reminder.xml	(revision 0e324a10b4c4d3d173cce1dd92bba18b0040640c)
++++ app/src/main/res/layout/activity_reminder.xml	(date 1605203793922)
+@@ -57,4 +57,18 @@
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/contentLabel" />
++
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/done"
++        android:layout_width="56dp"
++        android:layout_height="56dp"
++        android:layout_marginEnd="16dp"
++        android:layout_marginBottom="16dp"
++        android:clickable="true"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/content"
++        app:layout_constraintVertical_bias="1.0"
++        app:srcCompat="?android:attr/textCheckMark" />
++
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/cs246/team1/spacedrepetition/EditReminderActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/cs246/team1/spacedrepetition/EditReminderActivity.java	(date 1605202216347)
++++ app/src/main/java/com/cs246/team1/spacedrepetition/EditReminderActivity.java	(date 1605202216347)
+@@ -0,0 +1,13 @@
++package com.cs246.team1.spacedrepetition;
++
++import android.os.Bundle;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++public class EditReminderActivity extends AppCompatActivity {
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_edit_reminder);
++    }
++}
+Index: app/src/main/res/layout/activity_edit_reminder.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_edit_reminder.xml	(date 1605203793911)
++++ app/src/main/res/layout/activity_edit_reminder.xml	(date 1605203793911)
+@@ -0,0 +1,101 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <TextView
++        android:id="@+id/summaryEditLabel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="32dp"
++        android:text="@string/summary"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/editReminderLabel" />
++
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/saveReminder"
++        android:layout_width="56dp"
++        android:layout_height="56dp"
++        android:layout_marginEnd="16dp"
++        android:layout_marginBottom="16dp"
++        android:clickable="true"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/content"
++        app:layout_constraintVertical_bias="1.0"
++        app:srcCompat="?android:attr/textCheckMark" />
++
++    <TextView
++        android:id="@+id/editReminderLabel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="40dp"
++        android:text="@string/editReminder"
++        android:textAppearance="@style/TextAppearance.AppCompat.Large"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.498"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/contentEditLabel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="@string/summary"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/summaryInput" />
++
++    <TextView
++        android:id="@+id/daysLabel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:text="@string/days"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/contentInput" />
++
++    <EditText
++        android:id="@+id/summaryInput"
++        android:layout_width="356dp"
++        android:layout_height="74dp"
++        android:layout_marginStart="16dp"
++        android:layout_marginEnd="16dp"
++        android:ems="10"
++        android:gravity="start|top"
++        android:inputType="textMultiLine"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/summaryEditLabel" />
++
++    <EditText
++        android:id="@+id/contentInput"
++        android:layout_width="369dp"
++        android:layout_height="322dp"
++        android:layout_marginStart="16dp"
++        android:layout_marginEnd="16dp"
++        android:ems="10"
++        android:gravity="start|top"
++        android:inputType="textMultiLine"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/contentEditLabel" />
++
++    <EditText
++        android:id="@+id/inputDays"
++        android:layout_width="202dp"
++        android:layout_height="24dp"
++        android:layout_marginStart="16dp"
++        android:layout_marginTop="16dp"
++        android:layout_marginEnd="16dp"
++        android:ems="10"
++        android:inputType="number"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toEndOf="@+id/daysLabel"
++        app:layout_constraintTop_toBottomOf="@+id/contentInput" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file

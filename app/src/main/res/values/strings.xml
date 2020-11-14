@@ -2,11 +2,14 @@
     <string name="app_name">Spaced Repetition</string>
     <string name="remindersTitle">Reminders</string>
     <string name="reminderTitle">Reminder</string>
+    <string name="editreminderTitle">Edit Reminder</string>
     <string name="summary">Summary:</string>
     <string name="content">Content:</string>
     <string name="logout">Logout</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="filler">Placeholder filler text</string>
-    <string name="show_notification">Show Notification</string>
+    <string name="days">Days to Remind me:</string>
+
+
 </resources>

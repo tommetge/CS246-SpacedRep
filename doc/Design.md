@@ -171,7 +171,12 @@ Mock-ups for each view is attached under the title in parentheses.
 - Reminder <Activity>
   - Summary
   - Content
-  - Time to live
+  - (Button) Done
+
+- ReminderEdit <Activity>
+  - Summary (EditText)
+  - Content (EditText)
+  - Time to live (EditText?)
   - (Button) Save
 
 - Pop-up <Fragment>
