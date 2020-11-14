@@ -8,4 +8,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="filler">Placeholder filler text</string>
+    <string name="show_notification">Show Notification</string>
 </resources>
