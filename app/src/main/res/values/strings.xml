@@ -10,6 +10,7 @@
     <string name="delete">Delete</string>
     <string name="filler">Placeholder filler text</string>
     <string name="days">Days to Remind me:</string>
+    <string name="show_notification">Show Notification</string>
 
 
 </resources>

@@ -20,7 +20,7 @@ public class ReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
-        notifyBtn = findViewById(R.id.notif_btn);
+        notifyBtn = findViewById(R.id.notify_btn);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("Reminder Notification","Reminder Notification", NotificationManager.IMPORTANCE_DEFAULT);
