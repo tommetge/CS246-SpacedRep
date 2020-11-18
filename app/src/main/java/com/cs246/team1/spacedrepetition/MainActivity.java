@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void showReminderNotification(Reminder reminder) {
-        // TODO: implement this
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(
                         MainActivity.this, ReminderNotificationChannelId);
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setAutoCancel(true);
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
-        managerCompat.notify(1, builder.build());
+        managerCompat.notify(reminder.notificationId(), builder.build());
     }
 
     public void showReminder(View view) {
