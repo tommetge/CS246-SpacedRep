@@ -60,10 +60,10 @@ public class ReminderActivity extends AppCompatActivity {
     public void setReminder(Reminder reminder) {
         _reminder = reminder;
 
-        Log.d(LOGTAG, "Showing reminder " + String.valueOf(_reminder.daysToLive()));
-        ((EditText)findViewById(R.id.summaryInput)).setText(_reminder.summary());
-        ((EditText)findViewById(R.id.contentInput)).setText(_reminder.content());
-        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(_reminder.daysToLive()));
+        Log.d(LOGTAG, "Showing reminder " + String.valueOf(_reminder.getDaysToLive()));
+        ((EditText)findViewById(R.id.summaryInput)).setText(_reminder.getSummary());
+        ((EditText)findViewById(R.id.contentInput)).setText(_reminder.getContent());
+        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(_reminder.getDaysToLive()));
     }
 
     public void onDone(View view) {

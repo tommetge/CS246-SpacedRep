@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements
     private FirebaseUser user;
     private List<String> _reminderList = new ArrayList<String>();
     private ArrayAdapter<String> _reminderAdapter;
-    private Reminder _testReminder;
+    private List<Reminder> _reminders;
+    private Reminder _selectedReminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,53 +56,61 @@ public class MainActivity extends AppCompatActivity implements
             text.setText("Hello, " + user.getDisplayName());
         }
 
-        _testReminder = new Reminder();
-        _testReminder.setSummary("Test Reminder");
-        _testReminder.setContent("Test content for the test reminder");
-        _testReminder.setDaysToLive(10);
-
         _reminderAdapter =
                 new ArrayAdapter<String>(
                         this, android.R.layout.simple_list_item_1, _reminderList);
         ListView reminderView = (ListView) findViewById(R.id.reminderList);
         reminderView.setAdapter(_reminderAdapter);
-        reminderView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                DialogFragment dialog = new EditOrDeletePopUp();
-                dialog.show(getSupportFragmentManager(), "EditOrDeletePopUpFragment");
-            }
+        reminderView.setOnItemClickListener((parent, view, position, id) -> {
+            _selectedReminder = _reminders.get(position);
+            DialogFragment dialog = new EditOrDeletePopUp();
+            dialog.show(getSupportFragmentManager(), "EditOrDeletePopUpFragment");
         });
+    }
 
-        _reminderAdapter.clear();
-        _reminderAdapter.add(_testReminder.summary());
-
-        // Test code: this fires a notification 3 seconds after launch
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Reminder reminder = new Reminder();
-                showReminderNotification(_testReminder);
-            }
-        }, 3000);
-
+    @Override
+    protected void onResume() {
+        Log.d(LOGTAG, "Resumed activity");
+        onRemindersChanged();
+        super.onResume();
     }
 
     public void onSignOut(View view) {
         AuthUI.getInstance()
                 .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(Task<Void> task) {
-                        // ...
-                    }
+                .addOnCompleteListener((task) -> {
+                    // ...
                 });
     }
 
     public void onNewReminder(View view) {
         Intent intent = new Intent(this, EditReminderActivity.class);
         startActivity(intent);
+    }
+
+    private void onRemindersChanged() {
+        Log.d(LOGTAG, "Reloading reminders");
+        Reminder.loadReminders((reminders, success) -> {
+            if (!success) {
+                Log.e(LOGTAG, "Failed to load reminders!");
+                return;
+            }
+
+            Log.d(LOGTAG, "Loaded reminders: " + reminders.toString());
+            new Handler(Looper.getMainLooper()).post(() -> {
+                _reminders = reminders;
+                _reminderAdapter.clear();
+                for (Reminder reminder : reminders) {
+                    _reminderAdapter.add(reminder.getSummary());
+                }
+            });
+
+            // Test code: this fires a notification 3 seconds after launch
+            new Handler().postDelayed(() -> {
+                Reminder reminder = new Reminder();
+                showReminderNotification(reminders.get(0));
+            }, 3000);
+        });
     }
 
     private void createNotificationChannel() {
@@ -122,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements
                         MainActivity.this, ReminderNotificationChannelId);
         builder.setContentTitle("Reminder");
         /* Need to make the text the reminder summary*/
-        builder.setContentText(_testReminder.summary());
+        builder.setContentText(reminder.getSummary());
         /* We could add a custom icon as a stretch goal */
         builder.setSmallIcon(R.drawable.ic_launcher_background);
         builder.setAutoCancel(true);
@@ -142,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(LOGTAG, "Edit pressed");
 
         Intent intent = new Intent(this, EditReminderActivity.class);
-        intent.putExtra(EditReminderActivity.ReminderKey, _testReminder.toJSON());
+        intent.putExtra(EditReminderActivity.ReminderKey, _selectedReminder.toJSON());
 
         startActivity(intent);
     }
