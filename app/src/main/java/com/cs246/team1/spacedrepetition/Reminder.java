@@ -27,9 +27,18 @@ public class Reminder {
     private static final String LOGTAG = "Reminder";
 
     public interface  ReminderLoadOperator {
+        /**
+         * Callback issued when Reminder.loadReminders() finishes.
+         * @param reminders List of reminders loaded from the database.
+         * @param success Indicates if the load call succeeded or failed.
+         */
         public void loadOperationComplete(List<Reminder> reminders, Boolean success);
     }
     public interface  ReminderSaveOperator {
+        /**
+         * Callback issued when Reminder.save() finishes.
+         * @param success Indicates if the load call succeeded or failed.
+         */
         public void saveOperationComplete(Boolean success);
     }
 
@@ -98,6 +107,11 @@ public class Reminder {
     }
 
     // Generates a unique identifier for notifications derived from this reminder.
+
+    /**
+     * Generates a unique identifier for notifications derived from this reminder.
+     * @return An identifier suitable for use with NotificationManagerCompat.notify()
+     */
     public Integer notificationId() {
         // Note: We'll want to make this dependent on last notification date
         // and notification period. For now, we'll just make it the current
@@ -106,6 +120,11 @@ public class Reminder {
     }
 
     // Firebase integration
+
+    /**
+     * Persists this reminder instance to the database.
+     * @param operator Callback to indicate success or failure.
+     */
     public void save(ReminderSaveOperator operator) {
         if (this.identifier == null) {
             saveByAdding(operator);
@@ -115,6 +134,7 @@ public class Reminder {
         saveByUpdating(operator);
     }
 
+    // Called when the reminder is new and does not have an existing Firebase-provided identifier.
     private void saveByAdding(ReminderSaveOperator operator) {
         Log.d(LOGTAG, "Saving new reminder");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -131,6 +151,7 @@ public class Reminder {
                 });
     }
 
+    // Called when the reminder already exists in the database and must be updated in place.
     private void saveByUpdating(ReminderSaveOperator operator) {
         Log.d(LOGTAG, "Updating existing reminder");
         final String identifier = this.identifier;
@@ -147,6 +168,11 @@ public class Reminder {
                 });
     }
 
+    /**
+     * Asynchronously loads all reminders from the database.
+     * @param operator Callback issued when the load operation finishes. See
+     *                 ReminderLoadOperator.loadOperationComplete()
+     */
     public static void loadReminders(ReminderLoadOperator operator) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(ReminderCollectionName).get()
@@ -189,10 +215,19 @@ public class Reminder {
         return true;
     }
 
+    /**
+     * Offers support for deserializing a Reminder instance that is JSON-ified.
+     * @param json Source JSON describing the Reminder.
+     * @return Deserialized Reminder instance.
+     */
     public static Reminder fromJSON(String json) {
         return new Gson().fromJson(json, Reminder.class);
     }
 
+    /**
+     * Offers support for serializing a Reminder instance to JSON.
+     * @return JSON-ified (serialized) Reminder instance.
+     */
     public String toJSON() {
         Gson gson = new Gson();
         return gson.toJson(this);

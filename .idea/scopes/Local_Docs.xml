@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Local Docs" pattern="src[Spaced_Repetition.app]:com.cs246.team1.spacedrepetition.*&amp;&amp;!src[Spaced_Repetition.app]:com.cs246.team1.spacedrepetition.BuildConfig" />
+</component>
