@@ -162,5 +162,8 @@ public class MainActivity extends AppCompatActivity implements
     public void onDialogDeleteClick(DialogFragment dialog) {
         // User touched the dialog's negative button
         Log.d(LOGTAG, "Delete pressed");
+        _selectedReminder.delete(success -> {
+            onRemindersChanged();
+        });
     }
 }

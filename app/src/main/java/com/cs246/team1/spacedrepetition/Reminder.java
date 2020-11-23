@@ -41,6 +41,13 @@ public class Reminder {
          */
         public void saveOperationComplete(Boolean success);
     }
+    public interface ReminderDeleteOperator {
+        /**
+         * Callback issued when Reminder.delete() finishes.
+         * @param success Indicates if the load call succeeded or failed.
+         */
+        public void deleteOperationComplete(Boolean success);
+    }
 
     // For serializing to / de-serializing from Firebase
     private static final String ReminderCollectionName = "reminders";
@@ -165,6 +172,22 @@ public class Reminder {
                 .addOnFailureListener((e) -> {
                     Log.w(LOGTAG, "Error updating reminder", e);
                     operator.saveOperationComplete(false);
+                });
+    }
+
+    public void delete(ReminderDeleteOperator operator) {
+        Log.d(LOGTAG, "Deleting existing reminder");
+        final String identifier = this.identifier;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(ReminderCollectionName).document(this.identifier)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(LOGTAG, "Reminder deleted from Firebase with ID: " + identifier);
+                    operator.deleteOperationComplete(true);
+                })
+                .addOnFailureListener((e) -> {
+                    Log.e(LOGTAG, "Error deleting reminder", e);
+                    operator.deleteOperationComplete(false);
                 });
     }
 
