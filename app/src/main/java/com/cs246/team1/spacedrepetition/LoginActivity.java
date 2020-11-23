@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(false)
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN
@@ -50,11 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 // ...
+                finish();
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
+                finish();
             }
         }
     }

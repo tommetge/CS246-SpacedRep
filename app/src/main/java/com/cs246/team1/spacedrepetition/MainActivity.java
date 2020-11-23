@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener((task) -> {
-                    // ...
+                    user = null;
+                    startActivity(new Intent(this, LoginActivity.class));
                 });
     }
 
