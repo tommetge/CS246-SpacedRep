@@ -45,7 +45,7 @@ public class ReminderActivity extends AppCompatActivity {
                 /* Need to make the text the reminder summary*/
                 builder.setContentText("Reminder Summary should go here");
                 /* We could add a custom icon as a strech goal */
-                builder.setSmallIcon(R.drawable.ic_launcher_background);
+                builder.setSmallIcon(R.drawable.ic_notif);
                 builder.setAutoCancel(true);
 
                 NotificationManagerCompat managerCompat = NotificationManagerCompat.from(ReminderActivity.this);
