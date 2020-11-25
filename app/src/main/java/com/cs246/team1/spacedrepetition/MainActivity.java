@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements
         if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
         } else {
+            Log.d(LOGTAG, "User already logged in");
             TextView text = (TextView) findViewById(R.id.reminderLabel);
             text.setText("Hello, " + user.getDisplayName());
         }

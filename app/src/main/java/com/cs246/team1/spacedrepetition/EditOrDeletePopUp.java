@@ -45,6 +45,7 @@ public class EditOrDeletePopUp extends DialogFragment {
                         listener.onDialogDeleteClick(EditOrDeletePopUp.this);
                     }
                 });
+        
         // Create the AlertDialog object and return it
         return builder.create();
     }
