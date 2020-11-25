@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements
         super.onResume();
     }
 
+    /**
+     * Opens the LoginActivity when the User signs out
+     * @param view - the view from which the method is called.
+     */
     public void onSignOut(View view) {
         AuthUI.getInstance()
                 .signOut(this)
@@ -84,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements
                 });
     }
 
+    /**
+     * Opens the editReminderActivity when called.
+     * @param view - the view from which the method is called.
+     */
     public void onNewReminder(View view) {
         Intent intent = new Intent(this, EditReminderActivity.class);
         startActivity(intent);
@@ -127,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements
         notificationManager.createNotificationChannel(channel);
     }
 
+    /**
+     * Shows a notification with the summary and title of the given reminder.
+     * @param reminder - the reminder that will be shown on the notification.
+     */
     public void showReminderNotification(Reminder reminder) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(
@@ -142,11 +154,19 @@ public class MainActivity extends AppCompatActivity implements
         managerCompat.notify(reminder.notificationId(), builder.build());
     }
 
+    /**
+     * Shows the reminder that was clicked in the given view.
+     * @param view - the view from which this method was called.
+     */
     public void showReminder(View view) {
         Intent intent = new Intent(this, ReminderActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Opens the edit dialog for the reminder that called the method.
+     * @param dialog - the dialog that's sending the message.
+     */
     @Override
     public void onDialogEditClick(DialogFragment dialog) {
         // User touched the dialog's positive button
@@ -158,6 +178,10 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    /**
+     * Opens the delete dialog for the reminder that called the method.
+     * @param dialog - the dialog that's sending the message.
+     */
     @Override
     public void onDialogDeleteClick(DialogFragment dialog) {
         // User touched the dialog's negative button
