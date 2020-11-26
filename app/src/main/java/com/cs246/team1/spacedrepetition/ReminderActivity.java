@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ReminderActivity extends AppCompatActivity {
     private Reminder reminder;
     private List<Reminder> reminders;
     private Integer reminderIndex;
+    private boolean contentShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,24 @@ public class ReminderActivity extends AppCompatActivity {
     public void setReminder(Reminder reminder) {
         this.reminder = reminder;
         ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
-        ((TextView)findViewById(R.id.content)).setText(reminder.getContent());
     }
 
     public void onNotifyButton(View view) {
         Log.d(LOGTAG, "Showing reminder notification " + reminder.toString());
         MainActivity.showReminderNotification(this, reminder);
+    }
+
+    public void onReveal(View view) {
+        Button button = findViewById(R.id.toggleContent);
+        TextView contentView = (TextView)findViewById(R.id.content);
+        if (contentShowing) {
+            contentView.setText("");
+            button.setText(getString(R.string.reminder_toggle_button_reveal));
+        } else {
+            contentView.setText(this.reminder.getContent());
+            button.setText(getString(R.string.reminder_toggle_button_hide));
+        }
+        contentShowing = !contentShowing;
     }
 
     public void onDone(View view) {
