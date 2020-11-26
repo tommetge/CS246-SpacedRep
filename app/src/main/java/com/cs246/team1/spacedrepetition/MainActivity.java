@@ -2,6 +2,8 @@ package com.cs246.team1.spacedrepetition;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -136,14 +138,22 @@ public class MainActivity extends AppCompatActivity implements
      * @param reminder - the reminder that will be shown on the notification.
      */
     public void showReminderNotification(Reminder reminder) {
+        Intent intent = new Intent(this, ReminderActivity.class);
+        intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(
                         MainActivity.this, ReminderNotificationChannelId);
         builder.setContentTitle("Reminder");
         /* Need to make the text the reminder summary*/
         builder.setContentText(reminder.getSummary());
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(reminder.getContent()));
         /* We could add a custom icon as a stretch goal */
-        builder.setSmallIcon(R.drawable.ic_launcher_background);
+        builder.setSmallIcon(R.drawable.ic_stat_name);
+        builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);

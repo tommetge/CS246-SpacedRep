@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
+import android.widget.TextView;
 
 public class ReminderActivity extends AppCompatActivity {
     private static final String LOGTAG = "ReminderActivity";
@@ -52,10 +53,9 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     public void setReminder(Reminder reminder) {
-        Log.d(LOGTAG, "Showing reminder " + reminder.getDaysToLive());
-        ((EditText)findViewById(R.id.summaryInput)).setText(reminder.getSummary());
-        ((EditText)findViewById(R.id.contentInput)).setText(reminder.getContent());
-        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(reminder.getDaysToLive()));
+        Log.d(LOGTAG, "Showing reminder " + reminder.toString());
+        ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
+        ((TextView)findViewById(R.id.content)).setText(reminder.getContent());
     }
 
     public void onDone(View view) {
