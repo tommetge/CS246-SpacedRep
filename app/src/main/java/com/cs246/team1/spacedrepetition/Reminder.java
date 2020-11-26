@@ -2,25 +2,13 @@ package com.cs246.team1.spacedrepetition;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Reminder {
 
@@ -32,30 +20,25 @@ public class Reminder {
          * @param reminders List of reminders loaded from the database.
          * @param success Indicates if the load call succeeded or failed.
          */
-        public void loadOperationComplete(List<Reminder> reminders, Boolean success);
+        void loadOperationComplete(List<Reminder> reminders, Boolean success);
     }
     public interface  ReminderSaveOperator {
         /**
          * Callback issued when Reminder.save() finishes.
          * @param success Indicates if the load call succeeded or failed.
          */
-        public void saveOperationComplete(Boolean success);
+        void saveOperationComplete(Boolean success);
     }
     public interface ReminderDeleteOperator {
         /**
          * Callback issued when Reminder.delete() finishes.
          * @param success Indicates if the load call succeeded or failed.
          */
-        public void deleteOperationComplete(Boolean success);
+        void deleteOperationComplete(Boolean success);
     }
 
     // For serializing to / de-serializing from Firebase
     private static final String ReminderCollectionName = "reminders";
-    private static final String ReminderSummaryKey = "summary";
-    private static final String ReminderContentKey = "content";
-    private static final String ReminderDaysToLiveKey = "daysToLive";
-    private static final String ReminderLastNotifiedAtKey = "lastNotifiedAt";
-    private static final String ReminderCurrentPeriodKey = "currentPeriod";
 
     private String identifier;
     private String summary;
@@ -201,7 +184,7 @@ public class Reminder {
         db.collection(ReminderCollectionName).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ArrayList<Reminder> reminders = new ArrayList();
+                        ArrayList<Reminder> reminders = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Reminder reminder = document.toObject(Reminder.class);
                             reminder.setIdentifier(document.getId());
@@ -228,14 +211,11 @@ public class Reminder {
             return false;
         if (!this.content.equals(other.getContent()))
             return false;
-        if (this.daysToLive != other.getDaysToLive())
+        if (!this.daysToLive.equals(other.getDaysToLive()))
             return false;
         if (!this.lastNotifiedAt.equals(other.getLastNotifiedAt()))
             return false;
-        if (this.currentPeriod != other.getCurrentPeriod())
-            return false;
-
-        return true;
+        return this.currentPeriod.equals(other.getCurrentPeriod());
     }
 
     /**

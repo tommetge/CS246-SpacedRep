@@ -43,8 +43,6 @@ public class EditReminderActivity extends AppCompatActivity {
                 Integer.valueOf(((EditText)findViewById(R.id.daysInput)).getText().toString()));
 
         Log.d(LOGTAG, "Saving reminder: " + _reminder.toString());
-        _reminder.save((success) -> {
-            finish();
-        });
+        _reminder.save((success) -> finish());
     }
 }

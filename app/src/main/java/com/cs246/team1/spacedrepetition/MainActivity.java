@@ -1,30 +1,26 @@
 package com.cs246.team1.spacedrepetition;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.DialogFragment;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +30,8 @@ public class MainActivity extends AppCompatActivity implements
     private static final String LOGTAG = "MainActivity";
     private static final String ReminderNotificationChannelId =
             "com.cs246.team1.spacedrepetition.notifications.reminders";
-    private static final int RC_SIGN_IN = 123;
     private FirebaseUser user;
-    private List<String> _reminderList = new ArrayList<String>();
+    private final List<String> _reminderList = new ArrayList<>();
     private ArrayAdapter<String> _reminderAdapter;
     private List<Reminder> _reminders;
     private Reminder _selectedReminder;
@@ -53,14 +48,14 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             Log.d(LOGTAG, "User already logged in");
-            TextView text = (TextView) findViewById(R.id.reminderLabel);
-            text.setText("Hello, " + user.getDisplayName());
+            TextView text = findViewById(R.id.reminderLabel);
+            text.setText(getString(R.string.main_hello, user.getDisplayName()));
         }
 
         _reminderAdapter =
-                new ArrayAdapter<String>(
+                new ArrayAdapter<>(
                         this, android.R.layout.simple_list_item_1, _reminderList);
-        ListView reminderView = (ListView) findViewById(R.id.reminderList);
+        ListView reminderView = findViewById(R.id.reminderList);
         reminderView.setAdapter(_reminderAdapter);
         reminderView.setOnItemClickListener((parent, view, position, id) -> {
             _selectedReminder = _reminders.get(position);
@@ -187,8 +182,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onDialogDeleteClick(DialogFragment dialog) {
         // User touched the dialog's negative button
         Log.d(LOGTAG, "Delete pressed");
-        _selectedReminder.delete(success -> {
-            onRemindersChanged();
-        });
+        _selectedReminder.delete(success -> onRemindersChanged());
     }
 }

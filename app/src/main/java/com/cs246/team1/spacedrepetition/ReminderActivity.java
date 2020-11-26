@@ -18,8 +18,6 @@ public class ReminderActivity extends AppCompatActivity {
 
     public static final String ReminderKey = "ReminderActivity.reminder";
 
-    private Reminder _reminder;
-
     Button notifyBtn;
 
     @Override
@@ -36,21 +34,17 @@ public class ReminderActivity extends AppCompatActivity {
         }
 
         /* This is an OnClick listener for now, until I figure out how to make the notification show up with a timer. */
-        notifyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notifyBtn.setOnClickListener(v -> {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(ReminderActivity.this, "Reminder Notification");
+            builder.setContentTitle("Reminder");
+            /* Need to make the text the reminder summary*/
+            builder.setContentText("Reminder Summary should go here");
+            /* We could add a custom icon as a strech goal */
+            builder.setSmallIcon(R.drawable.ic_notif);
+            builder.setAutoCancel(true);
 
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(ReminderActivity.this, "Reminder Notification");
-                builder.setContentTitle("Reminder");
-                /* Need to make the text the reminder summary*/
-                builder.setContentText("Reminder Summary should go here");
-                /* We could add a custom icon as a strech goal */
-                builder.setSmallIcon(R.drawable.ic_notif);
-                builder.setAutoCancel(true);
-
-                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(ReminderActivity.this);
-                managerCompat.notify(1, builder.build());
-            }
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(ReminderActivity.this);
+            managerCompat.notify(1, builder.build());
         });
 
         String reminderJSON = getIntent().getStringExtra(ReminderKey);
@@ -58,12 +52,10 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     public void setReminder(Reminder reminder) {
-        _reminder = reminder;
-
-        Log.d(LOGTAG, "Showing reminder " + String.valueOf(_reminder.getDaysToLive()));
-        ((EditText)findViewById(R.id.summaryInput)).setText(_reminder.getSummary());
-        ((EditText)findViewById(R.id.contentInput)).setText(_reminder.getContent());
-        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(_reminder.getDaysToLive()));
+        Log.d(LOGTAG, "Showing reminder " + reminder.getDaysToLive());
+        ((EditText)findViewById(R.id.summaryInput)).setText(reminder.getSummary());
+        ((EditText)findViewById(R.id.contentInput)).setText(reminder.getContent());
+        ((EditText)findViewById(R.id.daysInput)).setText(String.valueOf(reminder.getDaysToLive()));
     }
 
     public void onDone(View view) {

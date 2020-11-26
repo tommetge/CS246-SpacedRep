@@ -3,7 +3,7 @@ package com.cs246.team1.spacedrepetition;
 import java.util.ArrayList;
 import java.util.List;
 public class ReminderController {
-    ArrayList<Reminder> _reminders = new ArrayList<Reminder>();
+    final ArrayList<Reminder> _reminders = new ArrayList<>();
 
     public void addReminder(String summary, String content, Integer daysToLive) {
         Reminder reminder = new Reminder();
