@@ -16,5 +16,6 @@
     <string name="main_hello">Hello %1$s</string>
     <string name="reminder_toggle_button_reveal">Reveal</string>
     <string name="reminder_toggle_button_hide">Hide</string>
+    <string name="main_review_button_title">Start Review</string>
 
 </resources>

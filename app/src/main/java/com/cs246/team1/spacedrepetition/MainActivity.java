@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements
      * @param reminder the reminder that will be shown on the notification.
      */
     public static void showReminderNotification(Activity context, Reminder reminder) {
-        Log.d(LOGTAG, "Showing reminder " + reminder.toString());
+        Log.d(LOGTAG, "Showing notification for reminder " + reminder.toString());
 
         Intent intent = new Intent(context, ReminderActivity.class);
         intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
@@ -166,11 +166,20 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Shows the reminder that was clicked in the given view.
+     * Show the first reminder in the review queue.
      * @param view the view from which this method was called.
      */
-    public void showReminder(View view) {
+    public void startReview(View view) {
+        if (_reminders.size() == 0) {
+            Log.d(LOGTAG, "No reminders to review");
+            return;
+        }
+
+        Reminder reminder = _reminders.get(0);
         Intent intent = new Intent(this, ReminderActivity.class);
+        intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         startActivity(intent);
     }
 
