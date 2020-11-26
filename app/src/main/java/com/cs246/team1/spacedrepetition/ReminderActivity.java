@@ -1,65 +1,92 @@
 package com.cs246.team1.spacedrepetition;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.util.Log;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class ReminderActivity extends AppCompatActivity {
     private static final String LOGTAG = "ReminderActivity";
 
     public static final String ReminderKey = "ReminderActivity.reminder";
 
-    Button notifyBtn;
+    private Reminder reminder;
+    private List<Reminder> reminders;
+    private Integer reminderIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
-        notifyBtn = findViewById(R.id.notify_btn);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("Reminder Notification","Reminder Notification", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-
-        /* This is an OnClick listener for now, until I figure out how to make the notification show up with a timer. */
-        notifyBtn.setOnClickListener(v -> {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(ReminderActivity.this, "Reminder Notification");
-            builder.setContentTitle("Reminder");
-            /* Need to make the text the reminder summary*/
-            builder.setContentText("Reminder Summary should go here");
-            /* We could add a custom icon as a strech goal */
-            builder.setSmallIcon(R.drawable.ic_notif);
-            builder.setAutoCancel(true);
-
-            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(ReminderActivity.this);
-            managerCompat.notify(1, builder.build());
-        });
-
         String reminderJSON = getIntent().getStringExtra(ReminderKey);
         setReminder(Reminder.fromJSON(reminderJSON));
+
+        Reminder.loadReminders((reminders, success) -> {
+            if (!success) {
+                Log.e(LOGTAG, "Failed to load reminders!");
+                return;
+            }
+
+            Log.d(LOGTAG, "Loaded reminders: " + reminders);
+            this.reminders = reminders;
+            for (int i=0; i<reminders.size(); i++) {
+                if (this.reminder.equals(reminders.get(i))) {
+                    Log.d(LOGTAG, "Reminder found at offset " + i);
+                    this.reminderIndex = i;
+                    break;
+                }
+            }
+        });
     }
 
     public void setReminder(Reminder reminder) {
-        Log.d(LOGTAG, "Showing reminder " + reminder.toString());
+        this.reminder = reminder;
         ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
         ((TextView)findViewById(R.id.content)).setText(reminder.getContent());
     }
 
+    public void onNotifyButton(View view) {
+        Log.d(LOGTAG, "Showing reminder notification " + reminder.toString());
+        MainActivity.showReminderNotification(this, reminder);
+    }
+
     public void onDone(View view) {
         finish();
+    }
+
+    public void onNextReminder(View view) {
+        if (reminderIndex >= reminders.size() - 1) {
+            return;
+        }
+
+        Reminder nextReminder = reminders.get(reminderIndex + 1);
+        Log.d(LOGTAG, "Showing next reminder: " + nextReminder);
+
+        Intent intent = new Intent(this, ReminderActivity.class);
+        intent.putExtra(ReminderActivity.ReminderKey, nextReminder.toJSON());
+
+        startActivity(intent);
+    }
+
+    public void onPreviousReminder(View view) {
+        if (reminderIndex == 0) {
+            return;
+        }
+
+        Reminder previousReminder = reminders.get(reminderIndex - 1);
+        Log.d(LOGTAG, "Showing previous reminder: " + previousReminder);
+
+        Intent intent = new Intent(this, ReminderActivity.class);
+        intent.putExtra(ReminderActivity.ReminderKey, previousReminder.toJSON());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
     }
 
 }

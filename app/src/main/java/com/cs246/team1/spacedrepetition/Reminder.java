@@ -207,15 +207,25 @@ public class Reminder {
             return false;
 
         Reminder other = (Reminder)obj;
-        if (!this.summary.equals(other.getSummary()))
+        if (this.summary == null && other.getSummary() != null)
             return false;
-        if (!this.content.equals(other.getContent()))
+        if (this.summary != null && !this.summary.equals(other.getSummary()))
             return false;
-        if (!this.daysToLive.equals(other.getDaysToLive()))
+        if (this.content == null && other.getContent() != null)
             return false;
-        if (!this.lastNotifiedAt.equals(other.getLastNotifiedAt()))
+        if (this.content != null && !this.content.equals(other.getContent()))
             return false;
-        return this.currentPeriod.equals(other.getCurrentPeriod());
+        if (this.daysToLive == null && other.getDaysToLive() != null)
+            return false;
+        if (this.daysToLive != null && !this.daysToLive.equals(other.getDaysToLive()))
+            return false;
+        if (this.lastNotifiedAt == null && other.getLastNotifiedAt() != null)
+            return false;
+        if (this.lastNotifiedAt != null && !this.lastNotifiedAt.equals(other.getLastNotifiedAt()))
+            return false;
+        if (this.currentPeriod == null && other.getCurrentPeriod() != null)
+            return false;
+        return this.currentPeriod != null && this.currentPeriod.equals(other.getCurrentPeriod());
     }
 
     /**
@@ -232,8 +242,7 @@ public class Reminder {
      * @return JSON-ified (serialized) Reminder instance.
      */
     public String toJSON() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
+        return new Gson().toJson(this);
     }
 
     public String toString() {

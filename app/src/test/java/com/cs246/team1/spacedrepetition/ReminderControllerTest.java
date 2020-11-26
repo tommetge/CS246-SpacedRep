@@ -15,7 +15,7 @@ public class ReminderControllerTest {
         assertEquals(1, reminderList.size());
 
         Reminder reminder = reminderList.get(0);
-        assertEquals("test summary", reminder.summary());
+        assertEquals("test summary", reminder.getSummary());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class ReminderControllerTest {
         reminderList = testReminder.listReminders();
         Reminder editedReminder = reminderList.get(0);
 
-        assertEquals(editedReminder.summary(), newSummary);
+        assertEquals(editedReminder.getSummary(), newSummary);
         assertEquals(10, reminderList.size());
     }
 
@@ -52,7 +52,7 @@ public class ReminderControllerTest {
         reminderList = testReminder.listReminders();
         Reminder editedReminder = reminderList.get(0);
 
-        assertEquals(editedReminder.summary(), newSummary);
+        assertEquals(editedReminder.getSummary(), newSummary);
         assertEquals(10, reminderList.size());
     }
 

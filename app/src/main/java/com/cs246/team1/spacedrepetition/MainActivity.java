@@ -1,5 +1,6 @@
 package com.cs246.team1.spacedrepetition;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Opens the LoginActivity when the User signs out
-     * @param view - the view from which the method is called.
+     * @param view the view from which the method is called.
      */
     public void onSignOut(View view) {
         AuthUI.getInstance()
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Opens the editReminderActivity when called.
-     * @param view - the view from which the method is called.
+     * @param view the view from which the method is called.
      */
     public void onNewReminder(View view) {
         Intent intent = new Intent(this, EditReminderActivity.class);
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
             // Test code: this fires a notification 3 seconds after launch
             new Handler().postDelayed(() -> {
                 Reminder reminder = new Reminder();
-                showReminderNotification(reminders.get(0));
+                MainActivity.showReminderNotification(this, reminders.get(0));
             }, 3000);
         });
     }
@@ -135,18 +136,22 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Shows a notification with the summary and title of the given reminder.
-     * @param reminder - the reminder that will be shown on the notification.
+     * @param context activity from which the notification is called.
+     * @param reminder the reminder that will be shown on the notification.
      */
-    public void showReminderNotification(Reminder reminder) {
-        Intent intent = new Intent(this, ReminderActivity.class);
+    public static void showReminderNotification(Activity context, Reminder reminder) {
+        Log.d(LOGTAG, "Showing reminder " + reminder.toString());
+
+        Intent intent = new Intent(context, ReminderActivity.class);
         intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(
-                        MainActivity.this, ReminderNotificationChannelId);
+                        context, ReminderNotificationChannelId);
         builder.setContentTitle("Reminder");
         /* Need to make the text the reminder summary*/
         builder.setContentText(reminder.getSummary());
@@ -156,13 +161,13 @@ public class MainActivity extends AppCompatActivity implements
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
 
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
         managerCompat.notify(reminder.notificationId(), builder.build());
     }
 
     /**
      * Shows the reminder that was clicked in the given view.
-     * @param view - the view from which this method was called.
+     * @param view the view from which this method was called.
      */
     public void showReminder(View view) {
         Intent intent = new Intent(this, ReminderActivity.class);
@@ -171,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Opens the edit dialog for the reminder that called the method.
-     * @param dialog - the dialog that's sending the message.
+     * @param dialog the dialog that's sending the message.
      */
     @Override
     public void onDialogEditClick(DialogFragment dialog) {
@@ -186,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Opens the delete dialog for the reminder that called the method.
-     * @param dialog - the dialog that's sending the message.
+     * @param dialog the dialog that's sending the message.
      */
     @Override
     public void onDialogDeleteClick(DialogFragment dialog) {
