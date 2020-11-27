@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements
     private static final String ReminderNotificationChannelId =
             "com.cs246.team1.spacedrepetition.notifications.reminders";
     private FirebaseUser user;
+    private final ReminderDatabase.ReminderDatabaseStore _remindersDB =
+            ReminderDatabase.defaultDatabase();
     private final List<String> _reminderList = new ArrayList<>();
     private ArrayAdapter<String> _reminderAdapter;
     private List<Reminder> _reminders;
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void onRemindersChanged() {
         Log.d(LOGTAG, "Reloading reminders");
-        Reminder.loadReminders((reminders, success) -> {
+        _remindersDB.listReminders((reminders, success) -> {
             if (!success) {
                 Log.e(LOGTAG, "Failed to load reminders!");
                 return;
@@ -206,6 +208,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onDialogDeleteClick(DialogFragment dialog) {
         // User touched the dialog's negative button
         Log.d(LOGTAG, "Delete pressed");
-        _selectedReminder.delete(success -> onRemindersChanged());
+        _remindersDB.deleteReminder(_selectedReminder, (success) -> onRemindersChanged());
     }
 }

@@ -29,7 +29,7 @@ public class ReminderActivity extends AppCompatActivity {
         String reminderJSON = getIntent().getStringExtra(ReminderKey);
         setReminder(Reminder.fromJSON(reminderJSON));
 
-        Reminder.loadReminders((reminders, success) -> {
+        ReminderDatabase.defaultDatabase().listReminders((reminders, success) -> {
             if (!success) {
                 Log.e(LOGTAG, "Failed to load reminders!");
                 return;
@@ -50,6 +50,7 @@ public class ReminderActivity extends AppCompatActivity {
     public void setReminder(Reminder reminder) {
         this.reminder = reminder;
         ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
+        ((TextView)findViewById(R.id.content)).setText(getString(R.string.reminder_content_hidden));
     }
 
     public void onNotifyButton(View view) {
@@ -59,9 +60,9 @@ public class ReminderActivity extends AppCompatActivity {
 
     public void onReveal(View view) {
         Button button = findViewById(R.id.toggleContent);
-        TextView contentView = (TextView)findViewById(R.id.content);
+        TextView contentView = findViewById(R.id.content);
         if (contentShowing) {
-            contentView.setText("");
+            contentView.setText(getString(R.string.reminder_content_hidden));
             button.setText(getString(R.string.reminder_toggle_button_reveal));
         } else {
             contentView.setText(this.reminder.getContent());
