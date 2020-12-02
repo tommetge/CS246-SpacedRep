@@ -12,8 +12,14 @@ public class Reminder {
     private String summary;
     private String content;
     private Integer daysToLive = 30;
+    private Date createdAt;
     private Date lastNotifiedAt;
     private Integer currentPeriod = 0;
+    private int reviewScheduleType = Review.defaultSchedule().getType().getValue();
+
+    public Reminder() {
+        createdAt = new Date();
+    }
 
     // Accessors
     public String getIdentifier() {
@@ -48,6 +54,14 @@ public class Reminder {
         this.daysToLive = daysToLive;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Date getLastNotifiedAt() {
         return lastNotifiedAt;
     }
@@ -64,7 +78,25 @@ public class Reminder {
         this.currentPeriod = period;
     }
 
-    // Generates a unique identifier for notifications derived from this reminder.
+    public int getReviewScheduleType() {
+        return reviewScheduleType;
+    }
+
+    public void setReviewScheduleType(int type) {
+        this.reviewScheduleType = type;
+    }
+
+    /**
+     * Returns the ReviewSchedule associated with this Reminder.
+     * @return the correct ReviewSchedule instance for this Reminder
+     */
+    public Review.ReviewSchedule getSchedule() {
+        return Review.getSchedule(Review.ReviewScheduleType.valueOf(this.reviewScheduleType));
+    }
+
+    public Date getNextReviewDate() {
+        return getSchedule().getNextReviewDate(createdAt, lastNotifiedAt);
+    }
 
     /**
      * Generates a unique identifier for notifications derived from this reminder.
@@ -97,6 +129,10 @@ public class Reminder {
             return false;
         if (this.daysToLive != null && !this.daysToLive.equals(other.getDaysToLive()))
             return false;
+        if (this.createdAt == null && other.getCreatedAt() != null)
+            return false;
+        if (this.createdAt != null && !this.createdAt.equals(other.getCreatedAt()))
+            return false;
         if (this.lastNotifiedAt == null && other.getLastNotifiedAt() != null)
             return false;
         if (this.lastNotifiedAt != null && !this.lastNotifiedAt.equals(other.getLastNotifiedAt()))
@@ -126,6 +162,6 @@ public class Reminder {
     public String toString() {
         return super.toString() + "{" + identifier + ": summary=\"" + summary + "\", content: \""
                 + "\", daysToLive=" + daysToLive + ", lastNotified=" + lastNotifiedAt
-                + ", currentPeriod=" + currentPeriod;
+                + ", currentPeriod=" + currentPeriod + ", createdAt=" + createdAt;
     }
 }

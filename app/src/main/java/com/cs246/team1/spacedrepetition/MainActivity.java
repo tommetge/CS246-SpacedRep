@@ -117,8 +117,15 @@ public class MainActivity extends AppCompatActivity implements
 
             // Test code: this fires a notification 3 seconds after launch
             new Handler().postDelayed(() -> {
-                Reminder reminder = new Reminder();
-                MainActivity.showReminderNotification(this, reminders.get(0));
+                List<Reminder> remindersToReview = Review.ReminderReview.getRemindersForReview(_reminders);
+                if (remindersToReview.size() == 0) {
+                    Log.d(LOGTAG, "No reminders to review");
+                    return;
+                }
+
+                for (Reminder reminder : remindersToReview) {
+                    MainActivity.showReminderNotification(this, reminder);
+                }
             }, 3000);
         });
     }
@@ -172,12 +179,13 @@ public class MainActivity extends AppCompatActivity implements
      * @param view the view from which this method was called.
      */
     public void startReview(View view) {
-        if (_reminders.size() == 0) {
+        List<Reminder> remindersToReview = Review.ReminderReview.getRemindersForReview(_reminders);
+        if (remindersToReview.size() == 0) {
             Log.d(LOGTAG, "No reminders to review");
             return;
         }
 
-        Reminder reminder = _reminders.get(0);
+        Reminder reminder = remindersToReview.get(0);
         Intent intent = new Intent(this, ReminderActivity.class);
         intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
