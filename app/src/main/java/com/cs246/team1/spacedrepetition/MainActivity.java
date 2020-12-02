@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements
         reminderView.setAdapter(_reminderAdapter);
         reminderView.setOnItemClickListener((parent, view, position, id) -> {
             _selectedReminder = _reminders.get(position);
-            DialogFragment dialog = new EditOrDeletePopUp();
+            DialogFragment dialog = new EditOrDeletePopUp(_selectedReminder);
             dialog.show(getSupportFragmentManager(), "EditOrDeletePopUpFragment");
         });
     }

@@ -23,6 +23,12 @@ public class EditOrDeletePopUp extends DialogFragment {
     }
 
     private EditOrDeletePopUpListener listener;
+    private Reminder reminder;
+
+    public EditOrDeletePopUp(Reminder reminder) {
+        super();
+        this.reminder = reminder;
+    }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -42,7 +48,7 @@ public class EditOrDeletePopUp extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.filler)
+        builder.setMessage(reminder.getSummary())
                 .setPositiveButton(R.string.edit, (dialog, id) -> listener.onDialogEditClick(EditOrDeletePopUp.this))
                 .setNegativeButton(R.string.delete, (dialog, id) -> listener.onDialogDeleteClick(EditOrDeletePopUp.this));
         
