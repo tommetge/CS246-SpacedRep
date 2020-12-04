@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             Log.d(LOGTAG, "User already logged in");
-            TextView text = findViewById(R.id.reminderLabel);
-            text.setText(getString(R.string.main_hello, user.getDisplayName()));
+           // TextView text = findViewById(R.id.reminderLabel);
+           // text.setText(getString(R.string.main_hello, user.getDisplayName()));
         }
 
         _reminderAdapter =
