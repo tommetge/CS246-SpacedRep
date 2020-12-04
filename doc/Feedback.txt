@@ -1,0 +1,24 @@
+Login screen:
+- No nav bar in the login screen
+- Should have some kind of app identity - logo, label, welcome message, etc.
+
+Main screen:
+- Logout option should move to the nav bar (menu option)
+- List should expand to the whole width of the screen (close to the edge at least)
+- Nav bar: instead of the name, add a welcome message there. The name is unnecessary - should be a description of where the user is at in the app (Home, etc.)
+- "Nothing to review" button should match the colors and design of the app - so blue.
+
+Add screen:
+- "Spaced Repetition" - gone, show
+- "Edit Reminder" - not accurate, should be "Add Reminder". Should be in the nav bar.
+- Save button: not material design. Make part of the menu - check icon or floppy disk button.
+
+Delete/Edit popup:
+- Reconsider
+
+Review:
+- Use the same color scheme for the buttons (back, forward, reveal)
+- Reveal button should be wider
+- Nav item: remove the app name, show the reminder
+- Move the save to the menu item
+- Back / forward button on each side / corner of the bottom
