@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -115,9 +116,16 @@ public class MainActivity extends AppCompatActivity implements
                 }
             });
 
+            List<Reminder> remindersToReview = Review.ReminderReview.getRemindersForReview(reminders);
+            if (remindersToReview.size() == 0) {
+                Log.d(LOGTAG, "No reminders to review");
+                Button reviewButton = findViewById(R.id.startReview);
+                reviewButton.setText(R.string.main_review_button_title_inactive);
+                reviewButton.setEnabled(false);
+            }
+
             // Test code: this fires a notification 3 seconds after launch
             new Handler().postDelayed(() -> {
-                List<Reminder> remindersToReview = Review.ReminderReview.getRemindersForReview(_reminders);
                 if (remindersToReview.size() == 0) {
                     Log.d(LOGTAG, "No reminders to review");
                     return;
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(LOGTAG, "Showing notification for reminder " + reminder.toString());
 
         Intent intent = new Intent(context, ReminderActivity.class);
-        intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
+        intent.putExtra(ReminderActivity.ReminderIndexKey, 0);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(intent);
         PendingIntent pendingIntent =
@@ -164,7 +172,8 @@ public class MainActivity extends AppCompatActivity implements
         builder.setContentTitle("Reminder");
         /* Need to make the text the reminder summary*/
         builder.setContentText(reminder.getSummary());
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(reminder.getContent()));
+        // We can include the content but it breaks the flash card model
+        // builder.setStyle(new NotificationCompat.BigTextStyle().bigText(reminder.getContent()));
         /* We could add a custom icon as a stretch goal */
         builder.setSmallIcon(R.drawable.ic_stat_name);
         builder.setContentIntent(pendingIntent);
@@ -185,9 +194,8 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
-        Reminder reminder = remindersToReview.get(0);
         Intent intent = new Intent(this, ReminderActivity.class);
-        intent.putExtra(ReminderActivity.ReminderKey, reminder.toJSON());
+        intent.putExtra(ReminderActivity.ReminderIndexKey, 0);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);

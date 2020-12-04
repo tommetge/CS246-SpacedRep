@@ -142,7 +142,7 @@ public class ReminderDatabase {
 
         @Override
         public void listReminders(ReminderDBLoadOperator operator) {
-            _db.collection(ReminderCollectionName).get()
+            _db.collection(ReminderCollectionName).orderBy("createdAt").get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         ArrayList<Reminder> reminders = new ArrayList<>();

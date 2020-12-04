@@ -15,20 +15,17 @@ import java.util.List;
 public class ReminderActivity extends AppCompatActivity {
     private static final String LOGTAG = "ReminderActivity";
 
-    public static final String ReminderKey = "ReminderActivity.reminder";
+    public static final String ReminderIndexKey = "ReminderActivity.reminderIndex";
 
     private Reminder reminder;
     private List<Reminder> reminders;
-    private Integer reminderIndex;
+    private Integer reminderIndex = 0;
     private boolean contentShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
-
-        String reminderJSON = getIntent().getStringExtra(ReminderKey);
-        setReminder(Reminder.fromJSON(reminderJSON));
 
         ReminderDatabase.defaultDatabase().listReminders((reminders, success) -> {
             if (!success) {
@@ -38,20 +35,32 @@ public class ReminderActivity extends AppCompatActivity {
 
             Log.d(LOGTAG, "Loaded reminders: " + reminders);
             this.reminders = Review.ReminderReview.getRemindersForReview(reminders);
-            for (int i=0; i<this.reminders.size(); i++) {
-                if (this.reminder.equals(this.reminders.get(i))) {
-                    Log.d(LOGTAG, "Reminder found at offset " + i);
-                    this.reminderIndex = i;
-                    break;
-                }
-            }
+
+            setReminderIndex(getIntent().getIntExtra(ReminderIndexKey, 0));
         });
     }
 
-    public void setReminder(Reminder reminder) {
-        this.reminder = reminder;
+    public void setReminderIndex(int index) {
+        if (index < 0 || index >= reminders.size()) {
+            return;
+        }
+
+        reminderIndex = index;
+        reminder = this.reminders.get(index);
         ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
         ((TextView)findViewById(R.id.content)).setText(getString(R.string.reminder_content_hidden));
+        contentShowing = false;
+        Button revealButton = findViewById(R.id.toggleContent);
+        revealButton.setEnabled(true);
+        revealButton.setText(getString(R.string.review_reveal_button_title_reveal));
+    }
+
+    public void clearReminder() {
+        ((TextView)findViewById(R.id.summary)).setText(reminder.getSummary());
+        ((TextView)findViewById(R.id.content)).setText(getString(R.string.reminder_content_hidden));
+        Button revealButton = findViewById(R.id.toggleContent);
+        revealButton.setEnabled(false);
+        revealButton.setText(getString(R.string.review_reveal_button_title_loading));
     }
 
     public void onNotifyButton(View view) {
@@ -82,14 +91,11 @@ public class ReminderActivity extends AppCompatActivity {
             return;
         }
 
+        clearReminder();
+        reminder.setLastNotifiedAt(new Date());
         ReminderDatabase.defaultDatabase().updateReminder(reminder, success -> {
-            Reminder nextReminder = reminders.get(reminderIndex + 1);
-            Log.d(LOGTAG, "Showing next reminder: " + nextReminder);
-
-            Intent intent = new Intent(this, ReminderActivity.class);
-            intent.putExtra(ReminderActivity.ReminderKey, nextReminder.toJSON());
-
-            startActivity(intent);
+            Log.d(LOGTAG, "Showing next reminder");
+            setReminderIndex(reminderIndex + 1);
         });
     }
 
@@ -98,15 +104,11 @@ public class ReminderActivity extends AppCompatActivity {
             return;
         }
 
+        clearReminder();
+        reminder.setLastNotifiedAt(new Date());
         ReminderDatabase.defaultDatabase().updateReminder(reminder, success -> {
-            Reminder previousReminder = reminders.get(reminderIndex - 1);
-            Log.d(LOGTAG, "Showing previous reminder: " + previousReminder);
-
-            Intent intent = new Intent(this, ReminderActivity.class);
-            intent.putExtra(ReminderActivity.ReminderKey, previousReminder.toJSON());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            startActivity(intent);
+            Log.d(LOGTAG, "Showing previous reminder");
+            setReminderIndex(reminderIndex - 1);
         });
     }
 
