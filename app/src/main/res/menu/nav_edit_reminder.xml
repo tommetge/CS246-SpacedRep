@@ -2,7 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- "Add Reminder", should appear as action button if possible -->
+    <!-- "Delete Reminder", should appear as action button if possible -->
+    <item
+        android:id="@+id/nav_action_delete"
+        android:icon="@drawable/ic_action_delete_outline"
+        android:title="@string/nav_action_delete"
+        app:showAsAction="ifRoom"/>
+
+    <!-- "Save Reminder", should appear as action button if possible -->
     <item
         android:id="@+id/nav_action_save"
         android:icon="@drawable/ic_action_check"

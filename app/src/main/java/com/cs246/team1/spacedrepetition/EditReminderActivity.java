@@ -41,6 +41,10 @@ public class EditReminderActivity extends AppCompatActivity {
                 onSave(null);
                 return true;
             }
+            case R.id.nav_action_delete: {
+                onDelete(null);
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -73,6 +77,17 @@ public class EditReminderActivity extends AppCompatActivity {
         ReminderDatabase.defaultDatabase().addReminder(_reminder, (success) -> {
             if (!success) {
                 Log.e(LOGTAG, "Failed to save reminder");
+            }
+
+            finish();
+        });
+    }
+
+    public void onDelete(View view) {
+        Log.d(LOGTAG, "Delete reminder: " + _reminder.toString());
+        ReminderDatabase.defaultDatabase().deleteReminder(_reminder, (success) -> {
+            if (!success) {
+                Log.e(LOGTAG, "Failed to delete reminder");
             }
 
             finish();

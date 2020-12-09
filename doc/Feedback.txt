@@ -9,12 +9,12 @@ Main screen:
 - (Done) "Nothing to review" button should match the colors and design of the app - so blue.
 
 Add screen:
-- "Spaced Repetition" - gone, show
-- "Edit Reminder" - not accurate, should be "Add Reminder". Should be in the nav bar.
-- Save button: not material design. Make part of the menu - check icon or floppy disk button.
+- (Done) "Spaced Repetition" - gone, show
+- (Done) "Edit Reminder" - not accurate, should be "Add Reminder". Should be in the nav bar.
+- (Done) Save button: not material design. Make part of the menu - check icon or floppy disk button.
 
 Delete/Edit popup:
-- Reconsider
+- (Done) Reconsider
 
 Review:
 - Use the same color scheme for the buttons (back, forward, reveal)

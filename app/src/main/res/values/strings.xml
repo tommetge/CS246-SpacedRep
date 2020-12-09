@@ -28,5 +28,6 @@
     <string name="nav_action_add">Add</string>
     <string name="nav_action_logout">Sign Out</string>
     <string name="nav_action_save">Save</string>
+    <string name="nav_action_delete">Delete</string>
 
 </resources>

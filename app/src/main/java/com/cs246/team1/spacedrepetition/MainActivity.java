@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements
         ListView reminderView = findViewById(R.id.reminderList);
         reminderView.setAdapter(_reminderAdapter);
         reminderView.setOnItemClickListener((parent, view, position, id) -> {
-            _selectedReminder = _reminders.get(position);
-            DialogFragment dialog = new EditOrDeletePopUp(_selectedReminder);
-            dialog.show(getSupportFragmentManager(), "EditOrDeletePopUpFragment");
+            Reminder reminder = _reminders.get(position);
+            _selectedReminder = reminder;
+            onReminderClick(reminder);
         });
 
         ReminderDatabase.defaultDatabase().addListener(() -> {
@@ -227,6 +227,16 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, ReminderActivity.class);
         intent.putExtra(ReminderActivity.ReminderIndexKey, 0);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+    }
+
+    private void onReminderClick(Reminder reminder) {
+        // User tapped the reminder
+        Log.d(LOGTAG, "Edit pressed");
+
+        Intent intent = new Intent(this, EditReminderActivity.class);
+        intent.putExtra(EditReminderActivity.ReminderKey, reminder.toJSON());
 
         startActivity(intent);
     }
