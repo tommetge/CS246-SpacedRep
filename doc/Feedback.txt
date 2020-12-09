@@ -1,6 +1,6 @@
 Login screen:
 - No nav bar in the login screen
-- Should have some kind of app identity - logo, label, welcome message, etc.
+- (Done) Should have some kind of app identity - logo, label, welcome message, etc.
 
 Main screen:
 - (Done) Logout option should move to the nav bar (menu option)
