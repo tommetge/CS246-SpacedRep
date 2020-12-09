@@ -68,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements
             DialogFragment dialog = new EditOrDeletePopUp(_selectedReminder);
             dialog.show(getSupportFragmentManager(), "EditOrDeletePopUpFragment");
         });
+
+        ReminderDatabase.defaultDatabase().addListener(() -> {
+            Log.d(LOGTAG, "Notified of change to reminders");
+            onRemindersChanged();
+        });
     }
 
     @Override

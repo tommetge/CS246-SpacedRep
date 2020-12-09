@@ -2,6 +2,7 @@ package com.cs246.team1.spacedrepetition;
 
 import android.util.Log;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,6 +37,12 @@ public class ReminderDatabase {
          * @param success Indicates if the call succeeded or failed.
          */
         void operationComplete(Boolean success);
+    }
+    public interface ReminderDBListener {
+        /**
+         * Callback issued when the database contents have changed.
+         */
+        void onChange();
     }
 
     /**
@@ -73,6 +80,19 @@ public class ReminderDatabase {
          * @param operator Callback issued when the operation finishes.
          */
         void findReminder(Reminder reminder, ReminderDBFindOperator operator);
+
+        /**
+         * Adds the listener as an observer. The listener will be called when
+         * database contents change.
+         * @param listener Callback issued when the database changes.
+         */
+        void addListener(ReminderDBListener listener);
+
+        /**
+         * Removes the specified listener as an observer.
+         * @param listener The observer to remove.
+         */
+        void removeListener(ReminderDBListener listener);
     }
 
     /**
@@ -86,6 +106,22 @@ public class ReminderDatabase {
         private static final String ReminderCollectionName = "reminders";
 
         private final FirebaseFirestore _db = FirebaseFirestore.getInstance();
+
+        private ArrayList<ReminderDBListener> _listeners = new ArrayList<>();
+
+        public ReminderFirebaseStore() {
+            _db.collection(ReminderCollectionName).addSnapshotListener((value, e) -> {
+                if (e != null) {
+                    Log.w(LOGTAG, "Listen failed: ", e);
+                    return;
+                }
+
+                for (ReminderDBListener listener : _listeners) {
+                    Log.d(LOGTAG, "Notifying listener of change");
+                    listener.onChange();
+                }
+            });
+        }
 
         @Override
         public void addReminder(Reminder reminder, ReminderDBOperator operator) {
@@ -177,6 +213,22 @@ public class ReminderDatabase {
                 operator.findOperationComplete(index, true);
             });
         }
+
+        @Override
+        public void addListener(ReminderDBListener listener) {
+            if (_listeners.contains(listener)) {
+                return;
+            }
+
+            _listeners.add(listener);
+        }
+
+        @Override
+        public void removeListener(ReminderDBListener listener) {
+            if (_listeners.contains(listener)) {
+                _listeners.remove(listener);
+            }
+        }
     }
 
     /**
@@ -230,6 +282,16 @@ public class ReminderDatabase {
         public void findReminder(Reminder reminder, ReminderDBFindOperator operator) {
             int index = ReminderDatabase.indexOf(reminder, _reminders);
             operator.findOperationComplete(index, index >= 0);
+        }
+
+        @Override
+        public void addListener(ReminderDBListener listener) {
+            // Do nothing
+        }
+
+        @Override
+        public void removeListener(ReminderDBListener listener) {
+            // Do nothing
         }
     }
 
