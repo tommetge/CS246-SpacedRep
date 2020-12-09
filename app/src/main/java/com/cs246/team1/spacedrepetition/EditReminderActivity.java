@@ -2,9 +2,13 @@ package com.cs246.team1.spacedrepetition;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditReminderActivity extends AppCompatActivity {
@@ -21,6 +25,25 @@ public class EditReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_reminder);
         String reminderJSON = getIntent().getStringExtra(ReminderKey);
         setReminder(Reminder.fromJSON(reminderJSON));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_edit_reminder, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_action_save: {
+                onSave(null);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void setReminder(Reminder reminder) {
