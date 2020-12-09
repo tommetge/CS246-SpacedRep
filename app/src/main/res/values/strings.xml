@@ -22,6 +22,7 @@
     <string name="reminder_content_hidden">[Hidden]</string>
     <string name="main_review_button_title">Start Review</string>
     <string name="main_review_button_title_inactive">Nothing to review!</string>
+    <string name="review_title">Review Reminders</string>
     <string name="review_reveal_button_title_hide">Hide</string>
     <string name="review_reveal_button_title_reveal">Reveal</string>
     <string name="review_reveal_button_title_loading">Loading...</string>

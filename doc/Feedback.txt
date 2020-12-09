@@ -17,8 +17,8 @@ Delete/Edit popup:
 - (Done) Reconsider
 
 Review:
-- Use the same color scheme for the buttons (back, forward, reveal)
-- Reveal button should be wider
-- Nav item: remove the app name, show the reminder
-- Move the save to the menu item
-- Back / forward button on each side / corner of the bottom
+- (Done) Use the same color scheme for the buttons (back, forward, reveal)
+- (Done) Reveal button should be wider
+- (Done) Nav item: remove the app name, show the reminder
+- (Done) Move the save to the menu item
+- (Done) Back / forward button on each side / corner of the bottom
