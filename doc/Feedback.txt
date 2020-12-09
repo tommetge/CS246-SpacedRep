@@ -4,9 +4,9 @@ Login screen:
 
 Main screen:
 - Logout option should move to the nav bar (menu option)
-- List should expand to the whole width of the screen (close to the edge at least)
-- Nav bar: instead of the name, add a welcome message there. The name is unnecessary - should be a description of where the user is at in the app (Home, etc.)
-- "Nothing to review" button should match the colors and design of the app - so blue.
+- (Done) List should expand to the whole width of the screen (close to the edge at least)
+- (Done) Nav bar: instead of the name, add a welcome message there. The name is unnecessary - should be a description of where the user is at in the app (Home, etc.)
+- (Done) "Nothing to review" button should match the colors and design of the app - so blue.
 
 Add screen:
 - "Spaced Repetition" - gone, show
