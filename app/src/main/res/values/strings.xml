@@ -2,7 +2,8 @@
     <string name="app_name">Spaced Repetition</string>
     <string name="remindersTitle">Reminders</string>
     <string name="reminderTitle">Reminder</string>
-    <string name="editreminderTitle">Edit Reminder</string>
+    <string name="editReminderTitle">Edit Reminder</string>
+    <string name="addReminderTitle">Add Reminder</string>
     <string name="summary">Summary:</string>
     <string name="content">Content:</string>
     <string name="logout">Logout</string>
@@ -24,5 +25,8 @@
     <string name="review_reveal_button_title_hide">Hide</string>
     <string name="review_reveal_button_title_reveal">Reveal</string>
     <string name="review_reveal_button_title_loading">Loading...</string>
+    <string name="nav_action_add">Add</string>
+    <string name="nav_action_logout">Sign Out</string>
+    <string name="nav_action_save">Save</string>
 
 </resources>
