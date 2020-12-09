@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.firebase.ui.auth.AuthUI;
 
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                         .setIsSmartLockEnabled(false)
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.ic_elephant)
+                        .setTheme(R.style.LoginTheme)
                         .build(),
                 RC_SIGN_IN
         );

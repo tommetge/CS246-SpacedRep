@@ -1,5 +1,5 @@
 Login screen:
-- No nav bar in the login screen
+- (Done) No nav bar in the login screen
 - (Done) Should have some kind of app identity - logo, label, welcome message, etc.
 
 Main screen:
