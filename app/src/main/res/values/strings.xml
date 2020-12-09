@@ -6,6 +6,7 @@
     <string name="summary">Summary:</string>
     <string name="content">Content:</string>
     <string name="logout">Logout</string>
+    <string name="listItemReminderIconDescription">Reminder item</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="filler">Placeholder filler text</string>

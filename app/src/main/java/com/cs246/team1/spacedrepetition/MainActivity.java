@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements
     private final ReminderDatabase.ReminderDatabaseStore _remindersDB =
             ReminderDatabase.defaultDatabase();
     private final List<String> _reminderList = new ArrayList<>();
-    private ArrayAdapter<String> _reminderAdapter;
-    private List<Reminder> _reminders;
+    private ReminderAdapter _reminderAdapter;
+    private List<Reminder> _reminders = new ArrayList<>();
     private Reminder _selectedReminder;
 
     @Override
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         _reminderAdapter =
-                new ArrayAdapter<>(
-                        this, android.R.layout.simple_list_item_1, _reminderList);
+                new ReminderAdapter(
+                        this, _reminders);
         ListView reminderView = findViewById(R.id.reminderList);
         reminderView.setAdapter(_reminderAdapter);
         reminderView.setOnItemClickListener((parent, view, position, id) -> {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements
                 _reminders = reminders;
                 _reminderAdapter.clear();
                 for (Reminder reminder : reminders) {
-                    _reminderAdapter.add(reminder.getSummary());
+                    _reminderAdapter.add(reminder);
                 }
             });
 
