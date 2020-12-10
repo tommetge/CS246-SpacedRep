@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setIsSmartLockEnabled(false)
                         .setAvailableProviders(providers)
-                        .setLogo(R.drawable.ic_elephant)
+                        .setLogo(R.drawable.ic_logo)
                         .setTheme(R.style.LoginTheme)
                         .build(),
                 RC_SIGN_IN
