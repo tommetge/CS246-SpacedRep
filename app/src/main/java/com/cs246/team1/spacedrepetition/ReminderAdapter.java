@@ -31,7 +31,7 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         Reminder reminder = _reminders.get(position);
 
         ImageView image = (ImageView)listItem.findViewById(R.id.iconView);
-        image.setImageResource(R.drawable.ic_stat_name);
+        image.setImageResource(R.drawable.ic_elephant_not_faded);
 
         TextView summary = (TextView)listItem.findViewById(R.id.summaryText);
         summary.setText(reminder.getSummary());
