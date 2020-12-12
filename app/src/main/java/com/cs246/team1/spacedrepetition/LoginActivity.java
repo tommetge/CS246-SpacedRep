@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Configure supported auth providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build()
         );
 
         // Create and launch sign-in intent
