@@ -16,6 +16,7 @@ public class Reminder {
     private Date lastNotifiedAt;
     private Integer currentPeriod = 0;
     private int reviewScheduleType = Review.defaultSchedule().getType().getValue();
+    private String userId;
 
     public Reminder() {
         createdAt = new Date();
@@ -84,6 +85,14 @@ public class Reminder {
 
     public void setReviewScheduleType(int type) {
         this.reviewScheduleType = type;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     /**

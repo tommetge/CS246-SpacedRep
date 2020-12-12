@@ -2,6 +2,8 @@ package com.cs246.team1.spacedrepetition;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -131,6 +133,14 @@ public class ReminderDatabase {
                 return;
             }
 
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                Log.e(LOGTAG, "Attempted to save a reminder without a logged-in user");
+                operator.operationComplete(false);
+            }
+
+            reminder.setUserId(user.getUid());
+
             _db.collection(ReminderCollectionName)
                 .add(reminder)
                 .addOnSuccessListener((documentReference) -> {
@@ -162,6 +172,14 @@ public class ReminderDatabase {
 
         @Override
         public void updateReminder(Reminder reminder, ReminderDBOperator operator) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                Log.e(LOGTAG, "Attempted to save a reminder without a logged-in user");
+                operator.operationComplete(false);
+            }
+
+            reminder.setUserId(user.getUid());
+
             Log.d(LOGTAG, "Updating existing reminder");
             final String identifier = reminder.getIdentifier();
             _db.collection(ReminderCollectionName).document(identifier)
@@ -178,7 +196,14 @@ public class ReminderDatabase {
 
         @Override
         public void listReminders(ReminderDBLoadOperator operator) {
-            _db.collection(ReminderCollectionName).orderBy("createdAt").get()
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                Log.e(LOGTAG, "Attempted to save a reminder without a logged-in user");
+                operator.loadOperationComplete(null, false);
+            }
+
+            _db.collection(ReminderCollectionName).orderBy("createdAt")
+                .whereEqualTo("userId", user.getUid()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         ArrayList<Reminder> reminders = new ArrayList<>();
