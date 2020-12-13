@@ -64,11 +64,6 @@ public class ReminderActivity extends AppCompatActivity {
         revealButton.setText(getString(R.string.review_reveal_button_title_loading));
     }
 
-    public void onNotifyButton(View view) {
-        Log.d(LOGTAG, "Showing reminder notification " + reminder.toString());
-        MainActivity.showReminderNotification(this, reminder);
-    }
-
     public void onReveal(View view) {
         Button button = findViewById(R.id.toggleContent);
         TextView contentView = findViewById(R.id.content);

@@ -1,10 +1,13 @@
 package com.cs246.team1.spacedrepetition;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,10 +33,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         EditOrDeletePopUp.EditOrDeletePopUpListener {
+
+    public static class NotificationReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(LOGTAG, "Scheduled wake, will trigger notification");
+            MainActivity.showRemindersNotification(context);
+        }
+    }
 
     private static final String LOGTAG = "MainActivity";
     private static final String ReminderNotificationChannelId =
@@ -45,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements
     private ReminderAdapter _reminderAdapter;
     private List<Reminder> _reminders = new ArrayList<>();
     private Reminder _selectedReminder;
+    private Boolean _notificationsScheduled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,17 +167,25 @@ public class MainActivity extends AppCompatActivity implements
                 reviewButton.setEnabled(false);
             }
 
-            // Test code: this fires a notification 3 seconds after launch
-            new Handler().postDelayed(() -> {
-                if (remindersToReview.size() == 0) {
-                    Log.d(LOGTAG, "No reminders to review");
-                    return;
-                }
+            if (_notificationsScheduled) {
+                return;
+            }
 
-                for (Reminder reminder : remindersToReview) {
-                    MainActivity.showReminderNotification(this, reminder);
-                }
-            }, 3000);
+            Log.d(LOGTAG, "Scheduling review");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 9); // 9am
+
+            Intent intent = new Intent(this, NotificationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            _notificationsScheduled = true;
         });
     }
 
@@ -186,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements
      * @param context activity from which the notification is called.
      * @param reminder the reminder that will be shown on the notification.
      */
-    public static void showReminderNotification(Activity context, Reminder reminder) {
+    public static void showReminderNotification(Context context, Reminder reminder) {
         Log.d(LOGTAG, "Showing notification for reminder " + reminder.toString());
 
         Intent intent = new Intent(context, ReminderActivity.class);
@@ -211,6 +232,23 @@ public class MainActivity extends AppCompatActivity implements
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
         managerCompat.notify(reminder.notificationId(), builder.build());
+    }
+
+    public static void showRemindersNotification(Context context) {
+        ReminderDatabase.defaultDatabase().listReminders(((reminders, success) -> {
+            if (!success) {
+                Log.e(LOGTAG, "Failed to load reminders, will not post notifications!");
+                return;
+            }
+
+            List<Reminder> remindersToReview = Review.ReminderReview.getRemindersForReview(reminders);
+            if (remindersToReview.size() == 0) {
+                Log.d(LOGTAG, "No reminders to review");
+                return;
+            }
+
+            showReminderNotification(context, reminders.get(0));
+        }));
     }
 
     /**
